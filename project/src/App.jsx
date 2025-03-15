@@ -9,7 +9,7 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Equipments />} /> {/* ✅ דף התחברות */}
+        <Route path="/" element={<LoginForm />} /> {/* ✅ דף התחברות */}
         <Route path="/home" element={<HomePage />} /> {/* ✅ דף הבית */}
         <Route path="/signup" element={<SignUpForm />} /> {/* ✅ דף הרשמה */}
       </Routes>

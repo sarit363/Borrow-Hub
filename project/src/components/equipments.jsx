@@ -1,8 +1,6 @@
-
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
-import equipments from "./equipmentsList"
-// import cribs from "./cribsList";
+
 export default function Equipments() {
     const [equipments, setEquipments] = useState([]); // רשימה של ציוד
     const [newEquipment, setNewEquipment] = useState({
@@ -11,12 +9,28 @@ export default function Equipments() {
         status: "available", // הערך ההתחלתי
     }); // פרטי ציוד חדש
 
-    
+    // קריאה ל-API לקבלת הציוד
+    useEffect(() => {
+        const fetchEquipments = async () => {
+            try {
+                const response = await axios.get("http://localhost:3000/admin/equipments");
+                setEquipments(response.data); // עדכון הציוד בסטייט
+            } catch (error) {
+                console.error("Error fetching equipment:", error);
+            }
+        };
+        fetchEquipments(); // מבצע קריאה בעת טעינת העמוד
+    }, []); // הפעולה תקרה רק פעם אחת כאשר הרכיב ייטען
+
     // פונקציה להוספת ציוד
     const addEquipment = async () => {
-        const response = await axios.post("http://localhost:3000/admin/equipments", newEquipment);
-        setEquipments([...equipments, response.data]); // הוספת הציוד החדש לרשימה
-        setNewEquipment({ name: "", category: "", status: "available" }); // איפוס שדות לאחר ההוספה
+        try {
+            const response = await axios.post("http://localhost:3000/admin/equipments", newEquipment);
+            setEquipments([...equipments, response.data]); // הוספת הציוד החדש לרשימה
+            setNewEquipment({ name: "", category: "", status: "available" }); // איפוס שדות לאחר ההוספה
+        } catch (error) {
+            console.error("Error adding equipment:", error);
+        }
     };
 
     // פונקציות שמבצעות עדכון של הערכים ב-newEquipment
@@ -53,12 +67,16 @@ export default function Equipments() {
             </form>
 
             <div>
-                {equipments.map((equipment) => (
-                    <div key={equipment.id}>
-                        <p>{equipment.name} - {equipment.status}</p>
-                    </div>
-                ))}
+                {equipments.length === 0 ? (
+                    <p>אין ציוד להציג</p>
+                ) : (
+                    equipments.map((equipment) => (
+                        <div key={equipment.id}>
+                            <p>{equipment.name} - {equipment.status}</p>
+                        </div>
+                    ))
+                )}
             </div>
         </div>
     );
-};
+}
