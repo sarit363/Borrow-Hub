@@ -1,19 +1,7 @@
 
-
-
-//דף שעוד לא בשימוש !!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-
-
-
-
-
-
-
-
-
 import { useState } from "react";
 import axios from "axios";
+import equipments from "./equipmentsList"
 // import cribs from "./cribsList";
 export default function Equipments() {
     const [equipments, setEquipments] = useState([]); // רשימה של ציוד
@@ -23,6 +11,7 @@ export default function Equipments() {
         status: "available", // הערך ההתחלתי
     }); // פרטי ציוד חדש
 
+    
     // פונקציה להוספת ציוד
     const addEquipment = async () => {
         const response = await axios.post("http://localhost:3000/admin/equipments", newEquipment);

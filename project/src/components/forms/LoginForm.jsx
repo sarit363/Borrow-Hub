@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import axios from 'axios';
-import { Link } from 'react-router-dom';  // ✅ ייבוא קישור לניווט
+import { setUser } from '../../store/auth/authSlice';
+import { Link } from 'react-router-dom'; // ✅ הוספת ייבוא של Link
 
 const LoginForm = () => {
   const [username, setUsername] = useState('');
@@ -10,6 +12,7 @@ const LoginForm = () => {
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
+  const dispatch = useDispatch(); // ✅ חייב להיות בתוך הקומפוננטה
 
   const handleLogin = async () => {
     setLoading(true);
@@ -19,8 +22,10 @@ const LoginForm = () => {
       const response = await axios.post('http://localhost:3000/auth/login', { username, password });
 
       if (response.status === 200) {
+        const userId = response.data.userId; // בהנחה שהשרת מחזיר userId
+        dispatch(setUser(userId)); // ✅ שמירת userId ב-Redux
         alert('כניסה הצליחה!');
-        navigate('/home');
+        navigate('/equipments'); // ✅ הפניה לדף רשימת הציוד
       }
     } catch (err) {
       setError('שם משתמש או סיסמה שגויים.');
@@ -59,9 +64,9 @@ const LoginForm = () => {
           {loading ? 'טוען...' : 'התחבר'}
         </button>
       </form>
-      
-      <p>משתמש חדש?? <Link to="/signup">הירשם כאן!</Link> 😁</p> {/* ✅ הוספתי קישור לדף ההרשמה */}
-      
+
+      <p>משתמש חדש?? <Link to="/signup">הירשם כאן!</Link> 😁</p> {/* ✅ הקישור חזר עם האימוג'י */}
+
       {error && <p style={{ color: 'red' }}>{error}</p>}
     </div>
   );

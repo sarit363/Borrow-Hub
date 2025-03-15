@@ -1,9 +1,13 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios"; // ✅ חובה כדי שהבקשה תעבוד!
+import { useDispatch } from "react-redux";
+import axios from "axios";
+import { setUser } from "../../store/auth/authSlice";
 
 export default function SignUpForm() {
   const navigate = useNavigate();
+  const dispatch = useDispatch(); // ✅ עכשיו זה בתוך הקומפוננטה
+
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
@@ -23,10 +27,12 @@ export default function SignUpForm() {
         email
       });
 
-      alert('נרשמת בהצלחה! עכשיו ניתן להתחבר.');
-
-      navigate('/'); // ✅ נווט לדף ההתחברות
-
+      if (response.status === 201) { // בהנחה שהשרת מחזיר 201 בהרשמה מוצלחת
+        const userId = response.data.userId; // קבלת ה-userId מהשרת
+        dispatch(setUser(userId)); // ✅ שמירה ב-Redux
+        alert('נרשמת בהצלחה!');
+        navigate('/equipments'); // ✅ מעבר לדף רשימת הציוד
+      }
     } catch (err) {
       if (err.response && err.response.status === 409) {
         setError("המשתמש כבר קיים במערכת.");
@@ -74,7 +80,7 @@ export default function SignUpForm() {
             required
           />
         </div>
-        
+
         <div>
           <label>אימייל:</label>
           <input
