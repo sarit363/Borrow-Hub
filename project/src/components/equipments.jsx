@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { useSelector } from 'react-redux';
+
 
 export default function Equipments() {
     const [equipments, setEquipments] = useState([]); // רשימה של ציוד
@@ -8,6 +10,9 @@ export default function Equipments() {
         category: "",
         status: "available", // הערך ההתחלתי
     }); // פרטי ציוד חדש
+
+    const userId = useSelector((state) => state.auth.userId); // שליפת מזהה המשתמש
+    const isAdmin = useSelector((state) => state.auth.isAdmin); // שליפת אם המשתמש הוא מנהל
 
     // קריאה ל-API לקבלת הציוד
     useEffect(() => {
@@ -25,13 +30,17 @@ export default function Equipments() {
     // פונקציה להוספת ציוד
     const addEquipment = async () => {
         try {
-            const response = await axios.post("http://localhost:3000/admin/equipments", newEquipment);
+            const headers = {
+                'user': isAdmin ? 'admin' : userId, // אם מדובר במנהל נשלח 'admin', אחרת נשלח את מזהה המשתמש
+            };
+            const response = await axios.post("http://localhost:3000/admin/equipments", newEquipment, { headers });
             setEquipments([...equipments, response.data]); // הוספת הציוד החדש לרשימה
             setNewEquipment({ name: "", category: "", status: "available" }); // איפוס שדות לאחר ההוספה
         } catch (error) {
             console.error("Error adding equipment:", error);
         }
     };
+
 
     // פונקציות שמבצעות עדכון של הערכים ב-newEquipment
     const handleInputChange = (e, field) => {
@@ -41,8 +50,9 @@ export default function Equipments() {
     return (
         <div>
             <h2>🛌ציוד🛌</h2>
-
+            {console.log(isAdmin)}
             {/* טופס להוספת ציוד */}
+            
             <form onSubmit={(e) => e.preventDefault()}>
                 <input
                     type="text"
