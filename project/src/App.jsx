@@ -6,6 +6,7 @@ import SignUpForm from './components/forms/SignUpForm';
 import Equipments from './components/equipments'; // ✅ וודא שהנתיב לקובץ נכון
 
 function App() {
+
   return (
     <Router>
       <Routes>

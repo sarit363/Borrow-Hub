@@ -52,7 +52,7 @@ export default function Equipments() {
             <h2>🛌ציוד🛌</h2>
             {console.log(isAdmin)}
             {/* טופס להוספת ציוד */}
-            
+            {isAdmin && (
             <form onSubmit={(e) => e.preventDefault()}>
                 <input
                     type="text"
@@ -75,7 +75,7 @@ export default function Equipments() {
                 </select>
                 <button type="button" onClick={addEquipment}>הוסף ציוד</button>
             </form>
-
+            )}
             <div>
                 {equipments.length === 0 ? (
                     <p>אין ציוד להציג</p>

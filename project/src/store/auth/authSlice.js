@@ -12,7 +12,7 @@ const authSlice = createSlice({
     setUser: (state, action) => {
       state.userId = action.payload.userId;
       state.username = action.payload.username;
-      state.isAdmin = action.payload.isAdmin || false;  
+      state.isAdmin = action.payload.isAdmin || false;  // שים לב, אם אין ערך ל-isAdmin אז הערך יישאר false
       state.isAuthenticated = true;
     },
     logout: (state) => {
