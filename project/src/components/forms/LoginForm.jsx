@@ -23,9 +23,17 @@ const LoginForm = () => {
 
       // בדוק אם התשובה חזרה עם status 200
       if (response.status === 200) {
-        const { userId, isAdmin } = response.data; // שליפת המידע מהתגובה
-        dispatch(setUser({ userId, username, isAdmin })); // שמירת הנתונים ב-Redux
+        const { userId } = response.data; // שליפת המידע מהתגובה
+        let isAdmin=false;
+
+        if(username === 'admin' && password === '1234567'){
+          
+        console.log("gfdcsx");
+          isAdmin = true;
+        }
+        dispatch(setUser({ userId, username ,isAdmin})); // שמירת הנתונים ב-Redux
         alert('כניסה הצליחה!');
+        console.log(isAdmin)
         navigate('/equipments');
       }
     } catch (err) {

@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useSelector } from 'react-redux';
+import Borrows from "./borrows";
+import { useNavigate } from 'react-router-dom';
 
 
 export default function Equipments() {
@@ -8,12 +10,12 @@ export default function Equipments() {
     const [newEquipment, setNewEquipment] = useState({
         name: "",
         category: "",
-        status: "available", // הערך ההתחלתי
+        status: "זמין", // הערך ההתחלתי
     }); // פרטי ציוד חדש
 
     const userId = useSelector((state) => state.auth.userId); // שליפת מזהה המשתמש
     const isAdmin = useSelector((state) => state.auth.isAdmin); // שליפת אם המשתמש הוא מנהל
-
+    const navigate = useNavigate();
     // קריאה ל-API לקבלת הציוד
     useEffect(() => {
         const fetchEquipments = async () => {
@@ -35,7 +37,7 @@ export default function Equipments() {
             };
             const response = await axios.post("http://localhost:3000/admin/equipments", newEquipment, { headers });
             setEquipments([...equipments, response.data]); // הוספת הציוד החדש לרשימה
-            setNewEquipment({ name: "", category: "", status: "available" }); // איפוס שדות לאחר ההוספה
+            setNewEquipment({ name: "", category: "", status: "הפריט זמין" }); // איפוס שדות לאחר ההוספה
         } catch (error) {
             console.error("Error adding equipment:", error);
         }
@@ -70,8 +72,8 @@ export default function Equipments() {
                     value={newEquipment.status}
                     onChange={(e) => handleInputChange(e, "status")}
                 >
-                    <option value="available">זמין</option>
-                    <option value="borrowed">נשאל</option>
+                    <option value="זמין">זמין</option>
+                    <option value="נשאל">נשאל</option>
                 </select>
                 <button type="button" onClick={addEquipment}>הוסף ציוד</button>
             </form>
@@ -83,6 +85,7 @@ export default function Equipments() {
                     equipments.map((equipment) => (
                         <div key={equipment.id}>
                             <p>{equipment.name} - {equipment.status}</p>
+                            <button onClick={() => navigate('/borrows')}>השאלת המוצר</button>
                         </div>
                     ))
                 )}
