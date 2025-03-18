@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'; // ✅ Importing necessary routing components
 import Equipments from './equipments';
-import Borrows from './borrows';
+
 
 export default function HomePage() {
     return (

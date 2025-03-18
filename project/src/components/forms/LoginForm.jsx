@@ -24,17 +24,22 @@ const LoginForm = () => {
       // בדוק אם התשובה חזרה עם status 200
       if (response.status === 200) {
         const { userId } = response.data; // שליפת המידע מהתגובה
-        let isAdmin=false;
+        let isAdmin = false;
 
-        if(username === 'admin' && password === '1234567'){
-          
-        console.log("gfdcsx");
+        // אם שם המשתמש והסיסמה תואמים למנהל
+        if (username === 'admin' && password === '1234567') {
           isAdmin = true;
         }
-        dispatch(setUser({ userId, username ,isAdmin})); // שמירת הנתונים ב-Redux
+
+        dispatch(setUser({ userId, username, isAdmin })); // שמירת הנתונים ב-Redux
         alert('כניסה הצליחה!');
-        console.log(isAdmin)
-        navigate('/equipments');
+        
+        // אם זה מנהל, נוודא שהוא נכנס לדף ה-EditBorrow
+        if (isAdmin) {
+          navigate('/editborrows');
+        } else {
+          navigate('/equipments'); // אם זה משתמש רגיל, נוודא שהוא נכנס לדף הציוד
+        }
       }
     } catch (err) {
       console.error(err);
