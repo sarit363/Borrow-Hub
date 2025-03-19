@@ -3,6 +3,12 @@ import axios from "axios";
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom'; // ✅ ייבוא useNavigate
 
+
+/*
+ if (audioRef.current) {
+      audioRef.current.play(); // הפעלת השמע באופן אוטומטי כשנכנסים לאתר
+    }
+*/
 export default function EditBorrows() { 
     const [newEquipment, setNewEquipment] = useState({
         name: "",
@@ -30,10 +36,10 @@ export default function EditBorrows() {
 
     // פונקציה להוספת ציוד
     const addEquipment = async () => {
-        if (!isAdmin) {
-            alert("אין לך הרשאות להוסיף ציוד.");
-            return;
-        }
+        // if (!isAdmin) {
+        //     alert("אין לך הרשאות להוסיף ציוד.");
+        //     return;
+        // }
 
         try {
             const headers = {
@@ -87,23 +93,24 @@ export default function EditBorrows() {
 
             {/* הצגת רשימת הציוד */}
             <div>
-                <h3>ציוד זמין:</h3>
+                {/* <h3>ציוד זמין:</h3>
                 {equipments.length === 0 ? (
                     <p>אין ציוד להציג</p>
-                ) : (
-                    equipments.map((equipment) => (
+                ) : ( */}
+                <br />
+                   { equipments.map((equipment) => (
                         <div key={equipment.id}>
                             <p>{equipment.name} - {equipment.status}</p>
                         </div>
-                    ))
-                )}
+                    ))}
+                
             </div>
 
             {/* כפתור חזרה */}
-            <button onClick={() => navigate('/equipments')}>חזרה לרשימת הציוד</button> {/* כפתור חזרה לדף הציוד */}
+            <button onClick={() => navigate('/equipments')}>לרשימת הציוד</button> {/* כפתור חזרה לדף הציוד */}
 
             {/* כפתור חזרה להתחברות */}
-            <button onClick={() => navigate('/')}>חזרה להתחברות </button> {/* כפתור חזרה לעמוד ההתחברות */}
+            <button onClick={() => navigate('/')}>התנתקות </button> {/* כפתור חזרה לעמוד ההתחברות */}
         </div>
     );
 }

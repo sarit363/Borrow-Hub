@@ -13,6 +13,8 @@ const LoginForm = () => {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  
+  let isAdmin = false;
 
   const handleLogin = async () => {
     setLoading(true);
@@ -24,7 +26,6 @@ const LoginForm = () => {
       // בדוק אם התשובה חזרה עם status 200
       if (response.status === 200) {
         const { userId } = response.data; // שליפת המידע מהתגובה
-        let isAdmin = false;
 
         // אם שם המשתמש והסיסמה תואמים למנהל
         if (username === 'admin' && password === '1234567') {

@@ -5,6 +5,17 @@
   text-align: center;
 }
 
+/* קביעת התמונה כרקע לכל האתר */
+body {
+  background-image: url('/im.webp'); /* ודא שהנתיב תקין */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+}
+
+
+
 .logo {
   height: 6em;
   padding: 1.5em;
