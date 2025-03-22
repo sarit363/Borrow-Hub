@@ -16,8 +16,15 @@ export default function SignUpForm() {
   const [loading, setLoading] = useState(false);
 
   const handleRegister = async () => {
-    setLoading(true);
     setError('');
+
+    // בדיקת אם אחד מהשדות ריק
+    if (!username || !password || !email || !phone) {
+      setError('יש למלא את כל השדות!');
+      return;
+    }
+
+    setLoading(true);
 
     try {
       const response = await axios.post('http://localhost:3000/auth/register', {
@@ -27,11 +34,11 @@ export default function SignUpForm() {
         email
       });
 
-      if (response.status === 201) { // בהנחה שהשרת מחזיר 201 בהרשמה מוצלחת
-        const userId = response.data.userId; // קבלת ה-userId מהשרת
-        dispatch(setUser(userId)); // ✅ שמירה ב-Redux
-        alert('נרשמת בהצלחה!');
-        navigate('/equipments'); // ✅ מעבר לדף רשימת הציוד
+      if (response.status === 201) {
+        const userId = response.data.userId;
+        dispatch(setUser(userId));
+        alert('נרשמת בהצלחה! עכשיו תוכל להתחבר ולעבור לציוד 😁');
+        navigate('/LoginForm');
       }
     } catch (err) {
       if (err.response && err.response.status === 409) {
@@ -44,12 +51,13 @@ export default function SignUpForm() {
     }
   };
 
+
   return (
     <>
       <h2>טופס הרשמה</h2>
       <form onSubmit={(e) => e.preventDefault()}>
         <div>
-          <label>שם משתמש:</label>
+          {/* <label>שם משתמש:</label> */}
           <input
             type="text"
             placeholder="הכנס שם משתמש"
@@ -60,7 +68,7 @@ export default function SignUpForm() {
         </div>
 
         <div>
-          <label>סיסמה:</label>
+          {/* <label>סיסמה:</label> */}
           <input
             type="password"
             placeholder="הכנס סיסמה"
@@ -71,7 +79,7 @@ export default function SignUpForm() {
         </div>
 
         <div>
-          <label>טלפון:</label>
+          {/* <label>טלפון:</label> */}
           <input
             type="tel"
             placeholder="הכנס מספר פלאפון"
@@ -82,7 +90,7 @@ export default function SignUpForm() {
         </div>
 
         <div>
-          <label>אימייל:</label>
+          {/* <label>אימייל:</label> */}
           <input
             type="email"
             placeholder="הכנס אימייל"
@@ -91,7 +99,7 @@ export default function SignUpForm() {
             required
           />
         </div>
-
+        <br />
         <button onClick={handleRegister} disabled={loading}>
           {loading ? 'טוען...' : 'הירשם'}
         </button>

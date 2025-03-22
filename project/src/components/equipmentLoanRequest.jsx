@@ -1,5 +1,5 @@
 
-
+//רק למנהל
 export default function EquipmentLoanRequest () {
 
     return(<>

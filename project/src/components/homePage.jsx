@@ -5,28 +5,18 @@ import Equipments from './equipments';
 
 export default function HomePage() {
     return (
-        <Router> {/* Make sure the Router wraps your Routes */}
-            <div>
-                <h1>מערכת השאלת ציוד</h1>
-
-                {/* Navigation Links */}
-                <nav>
-                    <ul>
-                        <li>
-                            <Link to="/equipments">ציוד</Link>
-                        </li>
-                        <li>
-                            <Link to="/borrows">השאלות</Link>
-                        </li>
-                    </ul>
-                </nav>
-
-                {/* Routing for Equipments and Borrows */}
-                <Routes>
-                    <Route path="/equipments" element={<Equipments />} />
-                    <Route path="/borrows" element={<Borrows />} />
-                </Routes>
-            </div>
-        </Router>
+        <div>
+            <h2>🏠 דף הבית</h2>
+            <nav>
+                <ul>
+                    <li>
+                        <Link to="/equipments">📦 ציוד זמין להשאלה</Link>
+                    </li>
+                    <li>
+                        <Link to="/borrowEquipments">📋 הציוד שהשאלתי</Link>
+                    </li>
+                </ul>
+            </nav>
+        </div>
     );
 }

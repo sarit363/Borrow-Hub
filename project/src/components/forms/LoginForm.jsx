@@ -13,7 +13,7 @@ const LoginForm = () => {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  
+
   let isAdmin = false;
 
   const handleLogin = async () => {
@@ -39,7 +39,7 @@ const LoginForm = () => {
         if (isAdmin) {
           navigate('/editborrows');
         } else {
-          navigate('/equipments'); // אם זה משתמש רגיל, נוודא שהוא נכנס לדף הציוד
+          navigate('/homePage'); // אם זה משתמש רגיל, נוודא שהוא נכנס לדף הציוד
         }
       }
     } catch (err) {

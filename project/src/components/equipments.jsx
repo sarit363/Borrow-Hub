@@ -18,6 +18,7 @@ export default function Equipments() {
     const userId = useSelector((state) => state.auth.userId);
     const isAdmin = useSelector((state) => state.auth.isAdmin);  // בדיקת אם המשתמש הוא מנהל
     const navigate = useNavigate();
+
     // פונקציה שבודקת אם התאריך הנתון נמצא בתוך חודש מהתאריך הנוכחי
     const isWithinOneMonth = (currentDate, targetDate) => {
         const current = new Date(currentDate);
@@ -100,16 +101,6 @@ export default function Equipments() {
     }, []);
 
 
-
-    const handleReturnEquipment = (id) => {
-        setEquipments(prevEquipments =>
-            prevEquipments.map(eq =>
-                eq.id === id ? { ...eq, status: 'זמין' } : eq
-            )
-        );
-        // ניתן להוסיף קריאה ל־API לעדכון במידה ונדרש
-    };
-
     // פונקציה לביצוע ההשאלה לאחר אישור
     const borrowEquipment = async () => {
         if (!selectedEquipment || !borrowDate || !returnDate) return;
@@ -128,7 +119,8 @@ export default function Equipments() {
                 {
                     equipmentId: selectedEquipment.id,
                     borrowDate,
-                    returnDate
+                    returnDate,
+                    userId: userId // הוספת מזהה המשתמש
                 },
                 { headers: { 'user': userId } } // שליחה עם מזהה המשתמש
             );
@@ -147,48 +139,34 @@ export default function Equipments() {
         }
     };
 
-
     return (
         <div>
             <h2>🛌 ציוד 🛌</h2>
             <div>
-                {equipments.length === 0 ? (
-                    <p>אין ציוד להציג</p>
+                {equipments.filter(equipment => equipment.status === 'זמין').length === 0 ? (
+                    <p>אין ציוד זמין להציג</p>
                 ) : (
-                    equipments.map((equipment) => (
-                        <div key={equipment.id}>
-                            <h3>{equipment.name}</h3>
-                            <p>קטגוריה: {equipment.category}</p>
-                            <p>סטטוס: {equipment.status}</p>
-                            {equipment.imgUri && <img src={equipment.imgUri} alt={equipment.name} />}
+                    equipments
+                        .filter(equipment => equipment.status === 'זמין')
+                        .map((equipment) => (
+                            <div key={equipment.id}>
+                                <h3>{equipment.name}</h3>
+                                <p>קטגוריה: {equipment.category}</p>
+                                <p>סטטוס: {equipment.status}</p>
+                                {equipment.imgUri && <img src={equipment.imgUri} alt={equipment.name} />}
 
-                            {/* הצגת כפתור השאלת המוצר */}
-                            <button
-                                onClick={() => {
-                                    if (equipment.status === 'זמין') {
-                                        openBorrowDialog(equipment);
-                                    } else {
-                                        alert('הציוד כבר מושאל');
-                                    }
-                                }}
-                            >
-                                השאלת המוצר
-                            </button>
-
-                            {equipment.status === 'נשאל' && (
-                                <button onClick={() => handleReturnEquipment(equipment.id)}>
-                                    החזרת ציוד
+                                <button onClick={() => openBorrowDialog(equipment)}>
+                                    השאלת המוצר
                                 </button>
-                            )}
 
-                            {/* הצגת כפתור עדכון רק אם המשתמש הוא מנהל */}
-                            {isAdmin && (
-                                <button onClick={() => openUpdateDialog(equipment)}>
-                                    עדכון ציוד
-                                </button>
-                            )}
-                        </div>
-                    ))
+                                {/* הצגת כפתור עדכון רק אם המשתמש הוא מנהל */}
+                                {isAdmin && (
+                                    <button onClick={() => openUpdateDialog(equipment)}>
+                                        עדכון ציוד
+                                    </button>
+                                )}
+                            </div>
+                        ))
                 )}
             </div>
 
