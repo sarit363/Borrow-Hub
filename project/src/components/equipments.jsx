@@ -121,7 +121,7 @@ export default function Equipments() {
                 const response = await axios.get("http://localhost:3000/equipments");
                 setEquipments(response.data.map(equipment => ({
                     ...equipment,
-                    status: equipment.status === 'borrowed' ? 'נשאל' : 'זמין'
+                    // status: equipment.status === 'borrowed' ? 'נשאל' : 'זמין'
                 })));
             } catch (error) {
                 console.error("Error fetching equipment:", error);
@@ -134,10 +134,10 @@ export default function Equipments() {
         <div>
             <h2>🛌 ציוד 🛌</h2>
             <div>
-                {equipments.filter(equipment => equipment.status === 'זמין').length === 0 ? (
+                {equipments.filter(equipment => equipment.status === 'available').length === 0 ? (
                     <p>אין ציוד זמין להציג</p>
                 ) : (
-                    equipments.filter(equipment => equipment.status === 'זמין').map((equipment) => (
+                    equipments.filter(equipment => equipment.status === 'available').map((equipment) => (
                         <div key={equipment.id}>
                             <h3>{equipment.name}</h3>
                             <p>קטגוריה: {equipment.category}</p>

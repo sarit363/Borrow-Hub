@@ -50,8 +50,8 @@ export default function BorrowedEquipment() {
 
             setEquipments(equipments.map(equip =>
                 equip.id === equipmentId
-                    ? { ...equip, status: isStillBorrowed ? 'נשאל' : 'זמין' }
-                    : equip
+                    // ? { ...equip, status: isStillBorrowed ? 'נשאל' : 'זמין' }
+                    // : equip
             ));
 
             alert("הציוד הוחזר בהצלחה!");
@@ -88,7 +88,8 @@ export default function BorrowedEquipment() {
                                     <TableRow key={borrow.id}>
                                         <TableCell>{formattedReturnDate}</TableCell>
                                         <TableCell>{formattedBorrowDate}</TableCell>
-                                        <TableCell>{borrow.status === 'borrowed' ? 'נשאל' : borrow.status}</TableCell>
+                                        <TableCell>{borrow.status}</TableCell>
+                                        {/* <TableCell>{borrow.status === 'borrowed' ? 'נשאל' : borrow.status}</TableCell> */}
                                         <TableCell>{equipment ? equipment.name : <span style={{ color: 'red' }}>ציוד לא זמין</span>}</TableCell>
                                         <TableCell>
                                             {borrow.status !== 'completed' && (

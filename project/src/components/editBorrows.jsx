@@ -7,7 +7,7 @@ export default function EditBorrows() {
     const [newEquipment, setNewEquipment] = useState({
         name: "",
         category: "",
-        status: "זמין",
+        status: "available",
     });
     const [equipments, setEquipments] = useState([]); // רשימת ציוד
     const isAdmin = useSelector((state) => state.auth.isAdmin);
@@ -79,8 +79,8 @@ export default function EditBorrows() {
                     value={newEquipment.status}
                     onChange={(e) => handleInputChange(e, "status")}
                 >
-                    <option value="זמין">זמין</option>
-                    <option value="נשאל">נשאל</option>
+                    <option value="זמין">available</option>
+                    <option value="נשאל">borrow</option>
                 </select>
                 <button type="button" onClick={addEquipment}>הוסף ציוד</button>
             </form>
