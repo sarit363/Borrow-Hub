@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import axios from 'axios';
 import { setUser } from '../../store/auth/authSlice';
 import { Link } from 'react-router-dom';
+import { Container, TextField, Button, Typography, Paper } from '@mui/material';
 
 const LoginForm = () => {
   const [username, setUsername] = useState('');
@@ -23,24 +24,17 @@ const LoginForm = () => {
     try {
       const response = await axios.post('http://localhost:3000/auth/login', { username, password });
 
-      // בדוק אם התשובה חזרה עם status 200
       if (response.status === 200) {
-        const { userId } = response.data; // שליפת המידע מהתגובה
+        const { userId } = response.data;
 
-        // אם שם המשתמש והסיסמה תואמים למנהל
         if (username === 'admin' && password === '1234567') {
           isAdmin = true;
         }
 
-        dispatch(setUser({ userId, username, isAdmin })); // שמירת הנתונים ב-Redux
+        dispatch(setUser({ userId, username, isAdmin }));
         alert('כניסה הצליחה!');
-        
-        // אם זה מנהל, נוודא שהוא נכנס לדף ה-EditBorrow
-        if (isAdmin) {
-          navigate('/editborrows');
-        } else {
-          navigate('/homePage'); // אם זה משתמש רגיל, נוודא שהוא נכנס לדף הציוד
-        }
+
+        navigate(isAdmin ? '/adminHomePage' : '/homePage');
       }
     } catch (err) {
       console.error(err);
@@ -51,40 +45,48 @@ const LoginForm = () => {
   };
 
   return (
-    <div>
-      <h2>טופס כניסה</h2>
-      <form onSubmit={(e) => { e.preventDefault(); handleLogin(); }}>
-        <div>
-          <label>שם משתמש:</label>
-          <input
-            type="text"
-            placeholder="הכנס שם משתמש"
+    <Container maxWidth="xs">
+      <Paper elevation={3} sx={{ padding: 4, textAlign: 'center', marginTop: 8 }}>
+        <Typography variant="h5" gutterBottom>
+          התחברות למערכת השכרת רכבים
+</Typography>
+        <form onSubmit={(e) => { e.preventDefault(); handleLogin(); }}>
+          <TextField
+            fullWidth
+            label="שם משתמש"
+            variant="outlined"
+            margin="normal"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             required
           />
-        </div>
-
-        <div>
-          <label>סיסמה:</label>
-          <input
+          <TextField
+            fullWidth
+            label="סיסמה"
             type="password"
-            placeholder="הכנס סיסמה"
+            variant="outlined"
+            margin="normal"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
-        </div>
-
-        <button type="submit" disabled={loading}>
-          {loading ? 'טוען...' : 'התחבר'}
-        </button>
-      </form>
-
-      <p>משתמש חדש?? <Link to="/signup">הירשם כאן!</Link> 😁</p>
-
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-    </div>
+          <Button
+            fullWidth
+            variant="contained"
+            color="primary"
+            type="submit"
+            disabled={loading}
+            sx={{ marginTop: 2 }}
+          >
+            {loading ? 'טוען...' : 'התחבר'}
+          </Button>
+        </form>
+        <Typography variant="body2" sx={{ marginTop: 2 }}>
+          משתמש חדש? <Link to="/signup">הירשם כאן!</Link> 😁
+        </Typography>
+        {error && <Typography color="error">{error}</Typography>}
+      </Paper>
+    </Container>
   );
 };
 

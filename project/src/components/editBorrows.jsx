@@ -3,12 +3,6 @@ import axios from "axios";
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom'; // ✅ ייבוא useNavigate
 
-
-/*
- if (audioRef.current) {
-      audioRef.current.play(); // הפעלת השמע באופן אוטומטי כשנכנסים לאתר
-    }
-*/
 export default function EditBorrows() { 
     const [newEquipment, setNewEquipment] = useState({
         name: "",

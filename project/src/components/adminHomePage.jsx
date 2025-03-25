@@ -1,13 +1,12 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'; // ✅ Importing necessary routing components
-import { Button, Typography } from '@mui/material'; // ✅ Importing MUI components
-import Equipments from './equipments'; // ✅ Importing Equipments component
+import { Link } from 'react-router-dom';
+import { Button, Typography } from '@mui/material';
 
-export default function HomePage() {
+export default function AdminHomePage() {
     return (
         <div style={styles.container}>
             <Typography variant="h4" gutterBottom>
-                🏠 דף הבית
+                🏠 דף הבית למנהל
             </Typography>
             <nav>
                 <ul style={styles.navList}>
@@ -22,6 +21,20 @@ export default function HomePage() {
                         <Link to="/borrowEquipments" style={styles.link}>
                             <Button variant="contained" color="secondary" style={styles.button}>
                                 📋 הציוד שהשאלתי
+                            </Button>
+                        </Link>
+                    </li>
+                    <li style={styles.navItem}>
+                        <Link to="/editBorrows" style={styles.link}>
+                            <Button variant="contained" color="success" style={styles.button}>
+                                ✏️ ניהול השאלות
+                            </Button>
+                        </Link>
+                    </li>
+                    <li style={styles.navItem}>
+                        <Link to="/adminBorrow" style={styles.link}>
+                            <Button variant="contained" color="warning" style={styles.button}>
+                                ⚙️ פאנל ניהול
                             </Button>
                         </Link>
                     </li>
@@ -44,7 +57,7 @@ const styles = {
         marginBottom: '1rem',
     },
     link: {
-        textDecoration: 'none', 
+        textDecoration: 'none',
     },
     button: {
         fontSize: '1rem',
