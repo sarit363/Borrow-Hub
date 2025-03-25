@@ -3,6 +3,7 @@ import axios from "axios";
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Borrows from "./Borrows"; // קומפוננטה שמנהלת את תהליך ההשאלה
+import { Link } from "react-router-dom";
 
 export default function Equipments() {
     const [equipments, setEquipments] = useState([]); // רשימת הציוד
@@ -98,7 +99,7 @@ export default function Equipments() {
             return;
         }
         try {
-           const response= await axios.post("http://localhost:3000/borrow", {
+            const response = await axios.post("http://localhost:3000/borrow", {
                 equipmentId: selectedEquipment.id,
                 startDate,
                 endDate,
@@ -144,7 +145,9 @@ export default function Equipments() {
                             <p>סטטוס: {equipment.status}</p>
                             {equipment.imgUri && <img src={equipment.imgUri} alt={equipment.name} />}
                             <button onClick={() => openBorrowDialog(equipment)}>השאלת המוצר</button>
-                            {isAdmin && <button onClick={() => openUpdateDialog(equipment)}>עדכון ציוד</button>}
+                            {isAdmin && 
+                                <button onClick={() => openUpdateDialog(equipment)}>עדכון ציוד</button>
+                            }
                             {isAdmin && (
                                 <button onClick={() => deleteEquipment(equipment.id)}>מחיקת ציוד</button>
                             )}
@@ -205,6 +208,17 @@ export default function Equipments() {
                     setEndDate={setEndDate}
                 />
             )}
+            <br />
+            {/* חזרה לדף הבית */}
+            {isAdmin ? (
+                <Link to="/adminHomePage" >
+                    <button>📦 חזרה לדף הבית</button>
+                </Link>
+            ) :
+                <Link to="/homePage">
+                    <button>📦 חזרה לדף הבית</button>
+                </Link>
+            }
         </div>
     );
 }

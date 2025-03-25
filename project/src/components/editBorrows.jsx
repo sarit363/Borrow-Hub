@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom'; // ✅ ייבוא useNavigate
+import { Link } from "react-router-dom";
 
 export default function EditBorrows() { 
     const [newEquipment, setNewEquipment] = useState({
@@ -105,6 +106,18 @@ export default function EditBorrows() {
 
             {/* כפתור חזרה להתחברות */}
             <button onClick={() => navigate('/')}>התנתקות </button> {/* כפתור חזרה לעמוד ההתחברות */}
+            <br />
+            <br />
+            {/* חזרה לדף הבית */}
+            {isAdmin ? (
+                <Link to="/adminHomePage" >
+                    <button>📦 חזרה לדף הבית</button>
+                </Link>
+            ) :
+                <Link to="/homePage">
+                    <button>📦 חזרה לדף הבית</button>
+                </Link>
+            }
         </div>
     );
 }

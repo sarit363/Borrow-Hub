@@ -2,11 +2,13 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { useSelector } from 'react-redux';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from '@mui/material';
+import { Link } from "react-router-dom";
 
 export default function BorrowedEquipment() {
     const [borrows, setBorrows] = useState([]);
     const [equipments, setEquipments] = useState([]);
     const userId = useSelector((state) => state.auth.userId);
+    const isAdmin = useSelector((state) => state.auth.isAdmin); 
 
     useEffect(() => {
         const fetchBorrows = async () => {
@@ -109,6 +111,17 @@ export default function BorrowedEquipment() {
                     </Table>
                 </TableContainer>
             )}
+             <br />
+            {/* חזרה לדף הבית */}
+            {isAdmin ? (
+                <Link to="/adminHomePage" >
+                    <button>📦 חזרה לדף הבית</button>
+                </Link>
+            ) :
+                <Link to="/homePage">
+                    <button>📦 חזרה לדף הבית</button>
+                </Link>
+            }
         </div>
     );
 }

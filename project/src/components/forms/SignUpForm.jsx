@@ -38,7 +38,7 @@ export default function SignUpForm() {
         const userId = response.data.userId;
         dispatch(setUser(userId));
         alert('נרשמת בהצלחה! עכשיו תוכל להתחבר ולעבור לציוד 😁');
-        navigate('/LoginForm');
+        navigate('/HomePage');
       }
     } catch (err) {
       if (err.response && err.response.status === 409) {

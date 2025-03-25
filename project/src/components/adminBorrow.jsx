@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 export default function AdminBorrows
 () {
   const [borrows, setBorrows] = useState([]);
   const [users, setUsers] = useState([]);
   const [equipments, setEquipments] = useState([]);
+  const isAdmin = useSelector((state) => state.auth.isAdmin);
 
   useEffect(() => {
     fetchBorrows();
@@ -234,6 +237,17 @@ export default function AdminBorrows
           </tbody>
         </table>
       )}
+       <br />
+            {/* חזרה לדף הבית */}
+            {isAdmin ? (
+                <Link to="/adminHomePage" >
+                    <button>📦 חזרה לדף הבית</button>
+                </Link>
+            ) :
+                <Link to="/homePage">
+                    <button>📦 חזרה לדף הבית</button>
+                </Link>
+            }
     </div>
   );
 }

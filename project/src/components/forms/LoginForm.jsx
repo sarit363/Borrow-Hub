@@ -49,7 +49,7 @@ const LoginForm = () => {
       <Paper elevation={3} sx={{ padding: 4, textAlign: 'center', marginTop: 8 }}>
         <Typography variant="h5" gutterBottom>
           התחברות למערכת השכרת רכבים
-</Typography>
+        </Typography>
         <form onSubmit={(e) => { e.preventDefault(); handleLogin(); }}>
           <TextField
             fullWidth
