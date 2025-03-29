@@ -3,6 +3,7 @@ import axios from "axios";
 import { useSelector } from 'react-redux';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from '@mui/material';
 import { Link } from "react-router-dom";
+//ציוד שהשאלתי
 
 export default function BorrowedEquipment() {
     const [borrows, setBorrows] = useState([]);

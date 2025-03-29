@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import axios from "axios";
 import { setUser } from "../../store/auth/authSlice";
+import { Container, Paper, TextField, Button, Typography, Box } from "@mui/material";
+import { Link } from "react-router-dom";
 
 export default function SignUpForm() {
   const navigate = useNavigate();
@@ -37,7 +39,7 @@ export default function SignUpForm() {
       if (response.status === 201) {
         const userId = response.data.userId;
         dispatch(setUser(userId));
-        alert('נרשמת בהצלחה! עכשיו תוכל להתחבר ולעבור לציוד 😁');
+        alert('נרשמת בהצלחה! 😁');
         navigate('/HomePage');
       }
     } catch (err) {
@@ -53,59 +55,67 @@ export default function SignUpForm() {
 
 
   return (
-    <>
-      <h2>טופס הרשמה</h2>
-      <form onSubmit={(e) => e.preventDefault()}>
-        <div>
-          {/* <label>שם משתמש:</label> */}
-          <input
-            type="text"
-            placeholder="הכנס שם משתמש"
+    <Container maxWidth="xs">
+      <Paper elevation={3} sx={{ padding: 4, textAlign: "center", marginTop: 8 }}>
+      <Typography variant="h5" color="#D81B60" fontWeight="bold" textAlign="center" gutterBottom>
+          👶 {<br />}ברוך הבא להצטרפות למערכת השאלת עריסות 
+        </Typography>
+        <form onSubmit={(e) => { e.preventDefault(); handleRegister(); }}>
+          <TextField
+            fullWidth
+            label="שם משתמש"
+            variant="outlined"
+            margin="normal"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             required
           />
-        </div>
-
-        <div>
-          {/* <label>סיסמה:</label> */}
-          <input
+          <TextField
+            fullWidth
+            label="סיסמה"
             type="password"
-            placeholder="הכנס סיסמה"
+            variant="outlined"
+            margin="normal"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
-        </div>
-
-        <div>
-          {/* <label>טלפון:</label> */}
-          <input
+          <TextField
+            fullWidth
+            label="טלפון"
             type="tel"
-            placeholder="הכנס מספר פלאפון"
+            variant="outlined"
+            margin="normal"
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
             required
           />
-        </div>
-
-        <div>
-          {/* <label>אימייל:</label> */}
-          <input
+          <TextField
+            fullWidth
+            label="אימייל"
             type="email"
-            placeholder="הכנס אימייל"
+            variant="outlined"
+            margin="normal"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
           />
-        </div>
-        <br />
-        <button onClick={handleRegister} disabled={loading}>
-          {loading ? 'טוען...' : 'הירשם'}
-        </button>
-      </form>
-
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-    </>
+          <Button
+            fullWidth
+            variant="contained"
+            color="primary"
+            type="submit"
+            disabled={loading}
+            sx={{ marginTop: 2 }}
+          >
+            {loading ? "טוען..." : "הירשם"}
+          </Button>
+        </form>
+        <Typography variant="body2" sx={{ marginTop: 2 }}>
+          כבר יש לך חשבון? <Link to="/login">התחבר כאן!</Link> 😃
+        </Typography>
+        {error && <Typography color="error">{error}</Typography>}
+      </Paper>
+    </Container>
   );
 }

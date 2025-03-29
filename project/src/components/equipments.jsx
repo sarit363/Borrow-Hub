@@ -146,8 +146,7 @@ export default function Equipments() {
                             {equipment.imgUri && <img src={equipment.imgUri} alt={equipment.name} />}
                             <button onClick={() => openBorrowDialog(equipment)}>השאלת המוצר</button>
                             {isAdmin && 
-                                <button onClick={() => openUpdateDialog(equipment)}>עדכון ציוד</button>
-                            }
+                            <button onClick={() => openUpdateDialog(equipment)}>עדכון ציוד</button>}
                             {isAdmin && (
                                 <button onClick={() => deleteEquipment(equipment.id)}>מחיקת ציוד</button>
                             )}

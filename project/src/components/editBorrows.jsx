@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom'; // ✅ ייבוא useNavigate
+import { useNavigate } from 'react-router-dom';
 import { Link } from "react-router-dom";
 
 export default function EditBorrows() { 
@@ -10,12 +10,11 @@ export default function EditBorrows() {
         category: "",
         status: "available",
     });
-    const [equipments, setEquipments] = useState([]); // רשימת ציוד
+    const [equipments, setEquipments] = useState([]);
     const isAdmin = useSelector((state) => state.auth.isAdmin);
     const userId = useSelector((state) => state.auth.userId);
-    const navigate = useNavigate(); // ✅ הוספנו את ה-Navigate כדי להעביר את המשתמש
+    const navigate = useNavigate();
 
-    // קריאה ל-API לקבלת הציוד ולהצגת הרשימה
     useEffect(() => {
         const fetchEquipments = async () => {
             try {
@@ -26,16 +25,10 @@ export default function EditBorrows() {
             }
         };
 
-        fetchEquipments(); // מבצע קריאה בעת טעינת העמוד
+        fetchEquipments();
     }, []);
 
-    // פונקציה להוספת ציוד
     const addEquipment = async () => {
-        // if (!isAdmin) {
-        //     alert("אין לך הרשאות להוסיף ציוד.");
-        //     return;
-        // }
-
         try {
             const headers = {
                 'user': isAdmin ? 'admin' : userId.toString(),
@@ -43,7 +36,7 @@ export default function EditBorrows() {
 
             const response = await axios.post("http://localhost:3000/admin/equipments", newEquipment, { headers });
             alert('הציוד נוסף בהצלחה');
-            setEquipments([...equipments, response.data]);  // עדכון הרשימה עם הציוד החדש
+            setEquipments([...equipments, response.data]);
             setNewEquipment({ name: "", category: "", status: "זמין" });
         } catch (error) {
             if (error.response) {
@@ -86,12 +79,7 @@ export default function EditBorrows() {
                 <button type="button" onClick={addEquipment}>הוסף ציוד</button>
             </form>
 
-            {/* הצגת רשימת הציוד */}
             <div>
-                {/* <h3>ציוד זמין:</h3>
-                {equipments.length === 0 ? (
-                    <p>אין ציוד להציג</p>
-                ) : ( */}
                 <br />
                    { equipments.map((equipment) => (
                         <div key={equipment.id}>
@@ -101,14 +89,12 @@ export default function EditBorrows() {
                 
             </div>
 
-            {/* כפתור חזרה */}
-            <button onClick={() => navigate('/equipments')}>לרשימת הציוד</button> {/* כפתור חזרה לדף הציוד */}
+            <button onClick={() => navigate('/equipments')}>לרשימת הציוד</button>
 
-            {/* כפתור חזרה להתחברות */}
-            <button onClick={() => navigate('/')}>התנתקות </button> {/* כפתור חזרה לעמוד ההתחברות */}
+            <button onClick={() => navigate('/')}>התנתקות </button>
+            
             <br />
             <br />
-            {/* חזרה לדף הבית */}
             {isAdmin ? (
                 <Link to="/adminHomePage" >
                     <button>📦 חזרה לדף הבית</button>

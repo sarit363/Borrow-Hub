@@ -47,8 +47,8 @@ const LoginForm = () => {
   return (
     <Container maxWidth="xs">
       <Paper elevation={3} sx={{ padding: 4, textAlign: 'center', marginTop: 8 }}>
-        <Typography variant="h5" gutterBottom>
-          התחברות למערכת השכרת רכבים
+        <Typography variant="h5" color="#D81B60" fontWeight="bold" textAlign="center" gutterBottom>
+          👶 {<br />}ברוך הבא להתחברות למערכת השאלת עריסות 
         </Typography>
         <form onSubmit={(e) => { e.preventDefault(); handleLogin(); }}>
           <TextField

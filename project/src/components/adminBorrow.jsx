@@ -23,7 +23,7 @@ export default function AdminBorrows
       });
       setBorrows(Array.isArray(res.data) ? res.data : [res.data]);
     } catch (error) {
-      console.error('⚠️ Error fetching borrows:', error);
+      console.error('Error fetching borrows:', error);
       setBorrows([]);
     }
   };
@@ -35,7 +35,7 @@ export default function AdminBorrows
       });
       setUsers(res.data);
     } catch (error) {
-      console.error('⚠️ Error fetching users:', error);
+      console.error('Error fetching users:', error);
     }
   };
 
@@ -44,7 +44,7 @@ export default function AdminBorrows
       const res = await axios.get('http://localhost:3000/equipments');
       setEquipments(res.data);
     } catch (error) {
-      console.error('⚠️ Error fetching equipments:', error);
+      console.error('Error fetching equipments:', error);
     }
   };
 
@@ -55,11 +55,11 @@ export default function AdminBorrows
         { status: 'borrowed', endDate },
         { headers: { user: 'admin' } }
       );
-      alert('✅ ההשאלה אושרה בהצלחה!');
+      alert('ההשאלה אושרה בהצלחה!');
       fetchBorrows();
     } catch (error) {
-      console.error('⚠️ Error approving borrow:', error);
-      alert('❌ שגיאה באישור ההשאלה.');
+      console.error('Error approving borrow:', error);
+      alert('שגיאה באישור ההשאלה.');
     }
   };
 
@@ -70,18 +70,18 @@ export default function AdminBorrows
         { status: 'rejected' },
         { headers: { user: 'admin' } }
       );
-      alert('❌ ההשאלה נדחתה בהצלחה!');
+      alert('ההשאלה נדחתה בהצלחה!');
       fetchBorrows();
     } catch (error) {
-      console.error('⚠️ Error rejecting borrow:', error);
-      alert('❌ שגיאה בדחיית ההשאלה.');
+      console.error('Error rejecting borrow:', error);
+      alert('שגיאה בדחיית ההשאלה.');
     }
   };
 
   const extendBorrow = async (borrowId) => {
-    const newEndDate = prompt('📅 הכנס תאריך חדש בפורמט YYYY-MM-DD:');
+    const newEndDate = prompt('הכנס תאריך חדש בפורמט YYYY-MM-DD:');
     if (!newEndDate) {
-      alert('⚠️ לא הוזן תאריך חדש');
+      alert('לא הוזן תאריך חדש');
       return;
     }
 
@@ -91,11 +91,11 @@ export default function AdminBorrows
         { status: 'borrowed', endDate: newEndDate },
         { headers: { user: 'admin' } }
       );
-      alert('⏳ ההשאלה הוארכה בהצלחה!');
+      alert('ההשאלה הוארכה בהצלחה!');
       fetchBorrows();
     } catch (error) {
-      console.error('⚠️ Error extending borrow:', error);
-      alert('❌ שגיאה בהארכת ההשאלה.');
+      console.error('Error extending borrow:', error);
+      alert('שגיאה בהארכת ההשאלה.');
     }
   };
 
@@ -106,11 +106,11 @@ export default function AdminBorrows
         {},
         { headers: { user: 'admin' } }
       );
-      alert('🔄 הפריט סומן כהוחזר בהצלחה!');
+      alert('הפריט סומן כהוחזר בהצלחה!');
       fetchBorrows();
     } catch (error) {
-      console.error('⚠️ Error returning borrow:', error);
-      alert('❌ שגיאה בסימון הפריט כהוחזר.');
+      console.error('Error returning borrow:', error);
+      alert('שגיאה בסימון הפריט כהוחזר.');
     }
   };
 
@@ -130,7 +130,7 @@ export default function AdminBorrows
           cursor: 'pointer',
         }}
       >
-        🔄 רענן נתונים
+          רענן נתונים
       </button>
 
       {borrows.length === 0 ? (
@@ -163,10 +163,10 @@ export default function AdminBorrows
               return (
                 <tr key={borrow.id}>
                      <td>{borrow.id}</td>
-                 <td>{user ? user.username : 'לא נמצא'}</td>
-                   <td>{user ? user.email : 'לא נמצא'}</td>
-                   <td>{user ? user.phone : 'לא נמצא'}</td>
-                   <td>{equipment ? equipment.name : 'לא נמצא'}</td>
+                 <td>{user.username}</td>
+                   <td>{user.email}</td>
+                   <td>{user.phone}</td>
+                   <td>{equipment.name}</td>
                    <td>{borrow.startDate}</td>
                    <td>{borrow.endDate}</td>
                    <td>{borrow.status}</td>
@@ -182,7 +182,7 @@ export default function AdminBorrows
                         cursor: 'pointer',
                       }}
                     >
-                      ✅ אשר
+                        אשר
                     </button>
 
                     <button
@@ -196,7 +196,7 @@ export default function AdminBorrows
                         cursor: 'pointer',
                       }}
                     >
-                      ❌ דחה
+                        דחה
                     </button>
 
                     {borrow.status === 'borrowed' && (
@@ -212,7 +212,7 @@ export default function AdminBorrows
                             cursor: 'pointer',
                           }}
                         >
-                          ⏳ הארך
+                            הארך
                         </button>
 
                         <button
@@ -226,7 +226,7 @@ export default function AdminBorrows
                             cursor: 'pointer',
                           }}
                         >
-                          🔄 החזר
+                            החזר
                         </button>
                       </>
                     )}
